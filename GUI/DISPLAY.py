@@ -10,14 +10,22 @@ class DISPLAY(GUI):
         self.config["width"] = width
         self.config["height"] = height
         self.config["font"] = 20
+        self.child = []
         self.construct()
         self.placement(0, 0)
         self.padding(10)
         self.build()
 
+
     def append(self, content):
         content = self.get() + content
         self.set(content=content)
+
+    def SetChild(self, child):
+        self.child.append(child)
+
+    def getChild(self):
+        return self.child
 
     def build(self):
         self.obj.config(text=self.config["text"])

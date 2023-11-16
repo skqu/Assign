@@ -13,11 +13,10 @@ cl_data._DataInit()
 
 btns_name = [
     [" ( ", " ) ", " ^ ", " c "], 
-    [" 7 ", " 8 ", " 9 ", " / "], 
-    [" 4 ", " 5 ", " 6 ", " * "], 
-    [" 1 ", " 2 ", " 3 ", " - "], 
-    [" 0 ", " . ", " = ", " + "]]
-btns = []
+    ["7", "8", "9", " / "], 
+    ["4", "5", "6", " * "], 
+    ["1", "2", "3", " - "], 
+    ["0", " . ", " = ", " + "]]
 
 frame_left = FRAME.FRAME("left")
 frame_left.placement(0,0)
@@ -47,9 +46,13 @@ cl_data.SetDisplay(h_display, "History")
 cl_data.SetDisplay(display, "Result")
 
 
+for i in range(10):
+    btn = BTN.BTN("", 0, i, h_display.obj, clb="history", height=1, bd=0, highlightthickness=0)
+    h_display.SetChild(btn)
+
+
 for row in range(len(btns_name)):
     for col in range(len(btns_name[row])):
         btn = BTN.BTN(btns_name[row][col], col, row, frm.obj)
-        btns.append(btn)
 
 GUI.GUI.start()

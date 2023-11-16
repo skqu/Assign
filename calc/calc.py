@@ -21,6 +21,7 @@ class CALC():
         stack = []
         if type(expression) == str:
             tokens = expression.split()
+            
         else:
             tokens = expression
 
@@ -58,7 +59,8 @@ class CALC():
         if len(tokens) >= 2:
             tokens.insert(start, result)
             result = self.calculate(tokens)
-        return result
+
+        return round(result, 2)
 
 
 if __name__ == "__main__":

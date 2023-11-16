@@ -37,7 +37,8 @@ class GUI:
         pass
     
     def set(self, content):
-        pass
+        self.config["text"] = content
+        self.obj.configure(text=content)
 
     @staticmethod
     def start():

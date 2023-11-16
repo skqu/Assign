@@ -71,7 +71,7 @@ class DATA:
         :return: None
         :rtype: None
         """
-        self.data += content
+        self.data = content
         self.result.set(self.data)
 
     
@@ -100,12 +100,10 @@ class DATA:
     
         """
         self.history.insert(0, self.data)
-        print(self.history)
-        data = ""
-        for his in self.history: 
-            data += (str(self.history.index(his) + 1) + ") " + his + "\n")
-        print(data)
-        self.DPLHistory.set(data)
+        for his in self.history:
+            btn = self.DPLHistory.getChild()[self.history.index(his)] 
+            data =  str(self.history.index(his) + 1) + ") " + his
+            btn.set(data)
         self.data = ""
         self.result.set(self.data)
 
