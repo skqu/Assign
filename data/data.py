@@ -26,6 +26,10 @@ class DATA:
         This inititialize the first instance. 
         
         """
+        self.data = ""
+        self.history = []
+        self.result = None
+        self.DPLHistory = None
         
 
     def Config(self, cnf):
@@ -67,6 +71,8 @@ class DATA:
         :return: None
         :rtype: None
         """
+        self.data += content
+        self.result.set(self.data)
 
     
     def SetDisplay(self, display, function):
@@ -79,11 +85,29 @@ class DATA:
         :type function: str
         """
 
+        if function == "Result": 
+            self.result = display
+        elif function == "History":
+            self.DPLHistory = display
+        else:
+            self.result = None
+            self.DPLHistory = None
+
+
     def Save(self):
         """
         Save the data to the history. 
     
         """
+        self.history.insert(0, self.data)
+        print(self.history)
+        data = ""
+        for his in self.history: 
+            data += (str(self.history.index(his) + 1) + ") " + his + "\n")
+        print(data)
+        self.DPLHistory.set(data)
+        self.data = ""
+        self.result.set(self.data)
 
     def Load(self):
         """

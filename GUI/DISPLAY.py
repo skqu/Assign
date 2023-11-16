@@ -2,13 +2,13 @@ from .GUI import GUI
 
 class DISPLAY(GUI):
 
-    def __init__(self, frame, name):
+    def __init__(self, frame, name, width = 80, height = 3):
         super().__init__()
         self.master = frame.obj
         self.config["text"] = ""
         self.config["relief"] = "solid"
-        self.config["width"] = 80
-        self.config["height"] = 3
+        self.config["width"] = width
+        self.config["height"] = height
         self.config["font"] = 20
         self.construct()
         self.placement(0, 0)

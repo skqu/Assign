@@ -24,7 +24,8 @@ frame_left.placement(0,0)
 frame_left.padding(0)
 frame_left.build()
 
-h_display = DISPLAY.DISPLAY(frame_left, "History")
+h_display = DISPLAY.DISPLAY(frame_left, "History", width=30, height=30)
+
 
 frame_right = FRAME.FRAME("right")
 frame_right.placement(0,1)
@@ -42,8 +43,8 @@ frm.placement(1,0)
 frm.padding(10)
 frm.build()
 
-cl_data.SetDisplay(h_display, "history")
-cl_data.SetDisplay(display, "result")
+cl_data.SetDisplay(h_display, "History")
+cl_data.SetDisplay(display, "Result")
 
 
 for row in range(len(btns_name)):

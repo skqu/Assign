@@ -24,7 +24,8 @@ class BTN(GUI):
             content = self.data.read()
             calculator = calc.CALC()
             result = calculator.calculate(content)
-            self.data.write(content)
+            self.data.write(" = " + str(result))
+            self.data.Save()
         else:
             self.data.write(self.get())
 
