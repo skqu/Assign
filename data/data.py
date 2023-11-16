@@ -1,3 +1,5 @@
+import csv
+
 class DATA:
     _instance = None
 
@@ -30,6 +32,8 @@ class DATA:
         self.history = []
         self.result = None
         self.DPLHistory = None
+
+        
         
 
     def Config(self, cnf):
@@ -39,6 +43,7 @@ class DATA:
         :param cnf: The config for the data connection
         :type cnf: dict
         """
+        self.config = cnf
 
 
     def read(self) -> str:
@@ -100,10 +105,14 @@ class DATA:
     
         """
         self.history.insert(0, self.data)
-        for his in self.history:
-            btn = self.DPLHistory.getChild()[self.history.index(his)] 
-            data =  str(self.history.index(his) + 1) + ") " + his
-            btn.set(data)
+        with open(self.config["file"], 'w', newline='') as csvfile:
+            csvwriter = csv.writer(csvfile)
+            for index, entry in enumerate(self.history, 1):
+                data = f"{index}) {entry}"
+                btn = self.DPLHistory.getChild()[index - 1]
+                btn.set(data)
+                csvwriter.writerow([data])
+            
         self.data = ""
         self.result.set(self.data)
 
@@ -112,6 +121,16 @@ class DATA:
         Load the data from the history and sent to display. 
     
         """
+        try:
+            with open(self.config["file"], 'r') as csvfile:
+                    csvreader = csv.reader(csvfile)
+                    loaded_data = [row[0] for row in csvreader]
+                    self.history = loaded_data
+                    for index, entry in enumerate(loaded_data, 1):
+                        btn = self.DPLHistory.getChild()[index - 1]
+                        btn.set(entry)
+        except FileNotFoundError:
+            print(f"File not found.")
 
 if __name__ == "__main__":
     db = DATA()
