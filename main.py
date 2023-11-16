@@ -8,7 +8,7 @@ from data import data
 
 cl_data = data.DATA()
 cl_data._DataInit()
-
+cl_data.Config({"file": "data.csv"})
 
 
 btns_name = [
@@ -55,4 +55,6 @@ for row in range(len(btns_name)):
     for col in range(len(btns_name[row])):
         btn = BTN.BTN(btns_name[row][col], col, row, frm.obj)
 
+
+cl_data.Load()
 GUI.GUI.start()
