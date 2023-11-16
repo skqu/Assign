@@ -8,7 +8,15 @@ from data import data
 
 cl_data = data.DATA()
 cl_data._DataInit()
-cl_data.Config({"file": "data.csv"})
+config = {
+    "user": "root",
+    "password": "",
+    "host": "localhost",
+    "database": "calculator",
+    "file": "data.csv"
+}
+cl_data.Config(config)
+cl_data.connect()
 
 
 btns_name = [
