@@ -1,5 +1,4 @@
 import mysql.connector
-import csv
 
 
 class DATA:
