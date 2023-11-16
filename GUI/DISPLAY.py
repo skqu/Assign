@@ -1,17 +1,8 @@
 from .GUI import GUI
 
 class DISPLAY(GUI):
-    _instance = None
 
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(DISPLAY, cls).__new__(cls)
-        return cls._instance
-
-    def __init__(self):
-        pass
-
-    def _init_disp(self, frame):
+    def __init__(self, frame, name):
         super().__init__()
         self.master = frame.obj
         self.config["text"] = ""

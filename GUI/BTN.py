@@ -1,5 +1,5 @@
 from .GUI import GUI
-from .DISPLAY import DISPLAY
+from data import data
 from calc import calc 
 
 class BTN(GUI):
@@ -10,7 +10,7 @@ class BTN(GUI):
         self.config["width"] = 20
         self.config["height"] = 3
         self.config["font"] =  20
-        self.dpl = DISPLAY()
+        self.data = data.DATA()
         self.master = frm
         self.config["command"] = self.clb
         self.construct()
@@ -19,16 +19,14 @@ class BTN(GUI):
 
     def clb(self):
         if self.get() == " c ":
-            self.dpl.set("")
+            self.data.wrtie("")
         elif self.get() == " = ":
-            content = self.dpl.get()
+            content = self.data.read()
             calculator = calc.CALC()
             result = calculator.calculate(content)
-            self.dpl.append(" = " + str(result))
-            #data = DATA.DATA()
-            #data.write(content)
+            self.data.write(content)
         else:
-            self.dpl.append(self.get())
+            self.data.write(self.get())
 
     def get(self):
         return self.config["text"]
