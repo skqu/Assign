@@ -1,4 +1,5 @@
-import csv
+import mysql.connector
+
 
 class DATA:
     _instance = None
@@ -64,6 +65,24 @@ class DATA:
                 If error see error codes. 
         :rtype: int
         """
+        self.mydb = mysql.connector.connect(
+        host=self.config["host"],
+        user=self.config["user"],
+        password=self.config["password"],
+        database=self.config["database"]
+        )   
+
+        self.mycursor = self.mydb.cursor()
+
+        self.mycursor.execute("SHOW TABLES")
+
+        tables = []
+
+        for x in self.mycursor:
+            tables.append(x[0])
+        
+        if "history" not in tables:
+                self.mycursor.execute("CREATE TABLE history (`ID` INT NOT NULL AUTO_INCREMENT, `equation` VARCHAR(45) NOT NULL, PRIMARY KEY (`ID`));")
         return 0
     
 
@@ -105,13 +124,16 @@ class DATA:
     
         """
         self.history.insert(0, self.data)
-        with open(self.config["file"], 'w', newline='') as csvfile:
-            csvwriter = csv.writer(csvfile)
-            for index, entry in enumerate(self.history, 1):
-                data = f"{index}) {entry}"
-                btn = self.DPLHistory.getChild()[index - 1]
-                btn.set(data)
-                csvwriter.writerow([data])
+        for index, entry in enumerate(self.history, 1):
+            btn = self.DPLHistory.getChild()[index - 1]
+            btn.set(str(index) + ") " + entry)
+
+
+        
+        sql = "INSERT INTO `calculator`.`history` (`equation`) VALUES ('" + self.data + "');"
+        self.mycursor.execute(sql)
+        self.mydb.commit()
+            
             
         self.data = ""
         self.result.set(self.data)
@@ -121,17 +143,17 @@ class DATA:
         Load the data from the history and sent to display. 
     
         """
-        try:
-            with open(self.config["file"], 'r') as csvfile:
-                    csvreader = csv.reader(csvfile)
-                    loaded_data = [row[0] for row in csvreader]
-                    self.history = loaded_data
-                    for index, entry in enumerate(loaded_data, 1):
-                        btn = self.DPLHistory.getChild()[index - 1]
-                        btn.set(entry)
-        except FileNotFoundError:
-            print(f"File not found.")
+        self.mycursor.execute("SELECT equation FROM history")
 
+        myresult = self.mycursor.fetchall()
+
+        for index, entry in enumerate(myresult, 1):
+            self.history.insert(0, entry[0])
+
+        for index, entry in enumerate(self.history, 1):
+            btn = self.DPLHistory.getChild()[index - 1]
+            btn.set(str(index) + ") " + entry)
+        
 if __name__ == "__main__":
     db = DATA()
     print(db.read())
