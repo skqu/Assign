@@ -1,32 +1,31 @@
 from .GUI import GUI
 
 class DISPLAY(GUI):
-    _instance = None
 
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(DISPLAY, cls).__new__(cls)
-        return cls._instance
-
-    def __init__(self):
-        pass
-
-    def _init_disp(self, frame):
+    def __init__(self, frame, name, width = 80, height = 3):
         super().__init__()
         self.master = frame.obj
         self.config["text"] = ""
         self.config["relief"] = "solid"
-        self.config["width"] = 80
-        self.config["height"] = 3
+        self.config["width"] = width
+        self.config["height"] = height
         self.config["font"] = 20
+        self.child = []
         self.construct()
         self.placement(0, 0)
         self.padding(10)
         self.build()
 
+
     def append(self, content):
         content = self.get() + content
         self.set(content=content)
+
+    def SetChild(self, child):
+        self.child.append(child)
+
+    def getChild(self):
+        return self.child
 
     def build(self):
         self.obj.config(text=self.config["text"])
